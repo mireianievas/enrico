@@ -165,23 +165,21 @@ class FitMaker(Loggin.Message):
         """Remove the weak source after a fit and reoptimized
          weak mens TS<1"""
         self._log('','Remove all the weak (TS<%.2f) sources' %minTS)
-        NoWeakSrcLeft = False
-        while not(NoWeakSrcLeft):
-            NoWeakSrcLeft = True
-            for src in Fit.model.srcNames:
-                ts = Fit.Ts(src)
-                if  (ts<minTS) and not(src == self.obs.srcname):
-                    #and Fit.logLike.getSource(src).getType() == 'Point':
-                    for comp in Fit.components:
-                        if comp.logLike.getSource(src).getType() == 'Point':
-                            if self.config['verbose'] == 'yes' :
-                                self.info("deleting source "+src+" with TS = "+str(ts)+" from the model")
-                            NoWeakSrcLeft = False
-                            comp.deleteSource(src)
-            if not(NoWeakSrcLeft):
-                self._log('Re-optimize', '')
-                Fit.fit(0,covar=True, optimizer=self.config['fitting']['optimizer'])
-            print
+        NoWeakSrcLeft = True
+        for src in Fit.model.srcNames:
+            ts = Fit.Ts(src)
+            if  (ts<minTS) and not(src == self.obs.srcname):
+                #and Fit.logLike.getSource(src).getType() == 'Point':
+                for comp in Fit.components:
+                    if comp.logLike.getSource(src).getType() == 'Point':
+                        if self.config['verbose'] == 'yes' :
+                            self.info("deleting source "+src+" with TS = "+str(ts)+" from the model")
+                        NoWeakSrcLeft = False
+                        comp.deleteSource(src)
+        if not(NoWeakSrcLeft):
+            self._log('Re-optimize', '')
+            Fit.fit(0,covar=True, optimizer=self.config['fitting']['optimizer'])
+        print
         return Fit
 
     def GetAndPrintResults(self, Fit):
