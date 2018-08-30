@@ -31,7 +31,7 @@ def GenAnalysisObjects(config, verbose = 1, xmlfile =""):
     SummedLike = config['Spectrum']['SummedLike']
     folder = config['out']
 
-    # If there is no xml file, create it and print a warning
+    # If there is no xml files, create it and print a warning
     if (not os.path.isfile(config['file']['xml'])):
         mes.warning("Xml not found, creating one for the given config %s" %config['file']['xml'])
         XmlMaker(config)
