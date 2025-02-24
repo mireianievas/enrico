@@ -258,12 +258,35 @@ def _SpecFileName(config):
     from enrico.constants import SpectrumPath
     return  config['out'] + '/'+SpectrumPath+'/SED_' + config['target']['name'] +'_'+ config['target']['spectrum']
 
-def CleanUpFitsFiles(config):
-    """Remove FITS files from destination directory"""
-    for ftype in ['fits', 'fits.gz','fit','fit.gz']:
-        for f in glob.glob(config['out']+'/*.'+ftype):
-            shutil.rmtree(f,ignore_errors=True)
+#def CleanUpFitsFiles(config,keep_gammapy=False):
+#    """Remove FITS files from destination directory"""
+#    keepit=False
+#    for ftype in ['fits', 'fits.gz','fit','fit.gz']:
+#        for f in os.path.join(config['out'], f"*.{ftype}"):
+#            if keep_gammapy:
+#                keepit=False
+#                for fkeep in ["_BinnedMap","_eDRM","_CountMap","_ModelMap","_psf","_ResidualMap","_SubtractMap","_Mktime",".result","_GTI"]:
+#                    if fkeep in f:
+#                        keepit=True
+#            if not keepit:
+#                shutil.rmtree(f,ignore_errors=True)
 
+def CleanUpFitsFiles(config, keep_minimal=False):
+    """Remove FITS files from destination directory"""
+    fits_extensions = ['fits', 'fits.gz', 'fit', 'fit.gz']
+    keep_keywords = ["_BinnedMap", "_eDRM", "_CountMap", "_ModelMap", 
+                     "_psf", "_ResidualMap", "_SubtractMap", "_Mktime", 
+                     "_GTI"]
+
+    for ftype in fits_extensions:
+        for f in glob.glob(os.path.join(config['out'], f"*.{ftype}")):
+            if keep_minimal and any(keyword in f for keyword in keep_keywords):
+                continue  # Skip deletion if the file should be kept
+            
+            try:
+                os.remove(f)
+            except OSError as e:
+                print(f"Error removing {f}: {e}")
 
 def _dump_xml(config) :
     """Give the name of the XML file where the results will be save by gtlike"""
