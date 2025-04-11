@@ -275,7 +275,7 @@ def CleanUpFitsFiles(config, keep_minimal=False):
     """Remove FITS files from destination directory"""
     fits_extensions = ['fits', 'fits.gz', 'fit', 'fit.gz']
     keep_keywords = ["_BinnedMap", "_eDRM", "_CountMap", "_ModelMap", 
-                     "_psf", "_ResidualMap", "_SubtractMap", "_Mktime", 
+                     "_psf", "_ResidualMap", "_SubtractMap", "_MkTime", 
                      "_GTI"]
 
     for ftype in fits_extensions:

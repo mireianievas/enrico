@@ -173,8 +173,7 @@ class LightCurve(Loggin.Message):
             # Do not produce spectral plots
             
             # cleanup the fits files of this bin after the analysis is done
-            if self.config['LightCurve']['FitsCleanupAfterAnalysis'] == 'yes':
-                self.config['file']['FitsCleanupAfterAnalysis'] = 'yes'
+            self.config['file']['FitsCleanupAfterAnalysis'] = self.config['LightCurve']['FitsCleanupAfterAnalysis']
 
             if len(self.gtifile)==1:
                 self.config['time']['file']=self.gtifile[0]
