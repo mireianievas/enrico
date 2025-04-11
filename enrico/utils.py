@@ -263,7 +263,7 @@ def CleanUpFitsFiles(config, keep_minimal=False):
     fits_extensions = ['fits', 'fits.gz', 'fit', 'fit.gz']
     keep_keywords = ["_BinnedMap", "_eDRM", "_CountMap", "_ModelMap", 
                      "_psf", "_ResidualMap", "_SubtractMap", "_MkTime", 
-                     "_GTI"]
+                     "_GTI","_alphabkgfile"]
 
     for ftype in fits_extensions:
         filetag = self.Configuration['file']['tag']
