@@ -266,7 +266,7 @@ def CleanUpFitsFiles(config, keep_minimal=False):
                      "_GTI","_alphabkgfile"]
 
     for ftype in fits_extensions:
-        filetag = self.Configuration['file']['tag']
+        filetag = config['file']['tag']
         for f in glob.glob(os.path.join(config['out'], f"*{filetag}*.{ftype}")):
             if keep_minimal and any(keyword in f for keyword in keep_keywords):
                 continue  # Skip deletion if the file should be kept
