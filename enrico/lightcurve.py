@@ -207,14 +207,14 @@ class LightCurve(Loggin.Message):
                        self.config['analysis']['likelihood'] +
                        "_LC_" + self.config['file']['tag'])+"_"+str(i)+".log"
 
-                if environ.FARM in ["IAC_DIVA"]:
+                if environ.FARM in ["IAC_DIVA", "IAC_DAMPE"]:
                     cmd_list.append(cmd)
                 else:
                     call(cmd,enricodir,fermidir,scriptname,JobLog,JobName)
             else :
                 os.system(cmd)
         
-        nmax = 100
+        nmax = 999
         if len(cmd_list)>0:    
             if len(cmd_list)>nmax:
                 cmd_list_split = [cmd_list[i * nmax:(i + 1) * nmax] for i in range((len(cmd_list) + nmax - 1) // nmax )]
